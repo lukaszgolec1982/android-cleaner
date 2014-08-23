@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Cleaner</string>
+    <string-array name="excluded_array">
+        <item>com.evernote</item>
+        <item>facebook</item>
+    </string-array>
 </resources>

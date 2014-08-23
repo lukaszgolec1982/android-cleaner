@@ -1,7 +1,6 @@
 package co.qualityc.cleaner.clean.service;
 
 import android.app.IntentService;
-import android.util.Log;
 
 import co.qualityc.cleaner.StorageItem;
 import co.qualityc.cleaner.clean.task.StorageCleanTask;

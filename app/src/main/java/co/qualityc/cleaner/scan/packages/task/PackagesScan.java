@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import co.qualityc.cleaner.PackageInfo;
+import co.qualityc.cleaner.utils.ExcludedFiles;
 
 public class PackagesScan implements Runnable {
     private static final String TAG = PackagesScan.class.getName();
@@ -30,11 +31,12 @@ public class PackagesScan implements Runnable {
 
     private final OnProgressListener listener;
     private final PackageManager packageManager;
+    private Context context;
 
-
-    public PackagesScan(PackageManager packageManager, OnProgressListener listener) {
+    public PackagesScan(PackageManager packageManager, OnProgressListener listener, Context context) {
         this.packageManager = packageManager;
         this.listener = listener;
+        this.context = context;
     }
 
     @Override
@@ -43,12 +45,14 @@ public class PackagesScan implements Runnable {
 
         List<PackageInfo> packageInfoList = new ArrayList<PackageInfo>();
 
+        ExcludedFiles excluded = new ExcludedFiles.Builder().setContext(context).build();
+
         if (isExternalStorageAvailable()) {
 
             File[] packageFiles = getPackagesDir().listFiles();
             if (packageFiles != null) {
                 for (File packageFile : packageFiles) {
-                    if (packageFile.isDirectory()) {
+                    if (packageFile.isDirectory() && excluded.isExcluded(packageFile.getName()) == false) {
                         PackageInfo packageInfo = new PackageInfo(packageFile.getName());
                         packageInfo.setDir(packageFile);
                         packageInfo.setCacheSize(calculatePackageCache(packageFile));

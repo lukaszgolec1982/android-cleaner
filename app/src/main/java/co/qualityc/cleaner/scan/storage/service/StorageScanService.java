@@ -36,7 +36,7 @@ public class StorageScanService extends ScanService
     protected void onHandleIntent(Intent intent) {
         super.onHandleIntent(intent);
 
-        new PackagesScan(getPackageManager(), this).run();
+        new PackagesScan(getPackageManager(), this, this).run();
     }
 
     @Override
